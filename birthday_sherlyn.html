@@ -9,6 +9,10 @@
 <body>
     <div class="container">
         <canvas id="particleCanvas"></canvas>
+         <!-- 音频播放器 -->
+        <audio id="birthdayMusic" autoplay loop>
+            <source src="birthday.mp3" type="audio/mpeg">
+        </audio>
         
         <div class="content">
             <div class="birthday-text">
@@ -52,5 +56,26 @@
     <div class="music-note">🎵</div>
     
     <script src="birthday_particles.js"></script>
+    <script>
+        // 音频自动播放处理
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('birthdayMusic');
+            
+            // 尝试自动播放
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('音乐自动播放成功');
+                }).catch(error => {
+                    console.log('自动播放被阻止，需要用户交互');
+                    // 添加点击事件监听器，用户点击页面时播放音乐
+                    document.addEventListener('click', function() {
+                        audio.play().catch(e => console.log('播放失败:', e));
+                    }, { once: true });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
